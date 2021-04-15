@@ -1,7 +1,7 @@
 # Project Overview
 
 This project evaluates a news article with Natural Language Processing.
-By submitting a valid url of a news web page, a request is sent to MeaningCloud API, evaluates news in the page and it give back a feedback about the news polarity and confidence.
+By submitting a valid URL of a news web page, a request is sent to MeaningCloud API, evaluates news on the page, and gives back feedback about the news polarity and confidence.
 
 ## Architecture
 
