@@ -46,4 +46,5 @@ A single field form used to validate the input URL using regex, and prsenent fee
 
 ## Deploying
 
-Deployed in Heroku
+Deployed in Heroku.
+https://evaluate-news-nlp-wepback.herokuapp.com/
