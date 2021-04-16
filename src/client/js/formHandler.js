@@ -15,7 +15,7 @@ async function handleSubmit(event) {
 
   // check what text was put into the form field
   let formText = await document.getElementById("name").value;
-  console.log(formText);
+
   if (url === true) {
     checkURL = await Client.checkForURL(formText);
   }
@@ -38,7 +38,6 @@ async function handleSubmit(event) {
     )
       .then((res) => res.json())
       .then(async (response) => {
-        console.log(response);
         if (response.status.code !== "0") {
           loading.innerHTML = response.status.msg + " " + "🙁";
           confidence.innerHTML = "";
