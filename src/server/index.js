@@ -38,7 +38,7 @@ app.get("/test", async function (req, res) {
   const result = await request(requestOptions, function (error, response) {
     // console.log("response: ", response);
     console.log(error, response.body);
-    return response.body;
+    return response;
   });
   res.json(result);
   // res.send(mockAPIResponse);
