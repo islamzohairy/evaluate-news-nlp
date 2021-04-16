@@ -61,6 +61,6 @@ app.post("/analyze", function (req, res) {
     console.log(body);
 
     res.send(body);
-    return;
+    // return;
   });
 });
