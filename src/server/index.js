@@ -23,7 +23,7 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-app.post("/test", async function (req, res) {
+app.post("/test", function (req, res) {
   const formdata = new FormData();
   formdata.append("key", process.env.API_KEY);
   formdata.append("url", req.body.formText);
@@ -35,7 +35,7 @@ app.post("/test", async function (req, res) {
     redirect: "follow",
     uri: "https://api.meaningcloud.com/sentiment-2.1",
   };
-  const result = await request(requestOptions, function (error, response) {
+  const result = request(requestOptions, function (error, response) {
     // console.log("response: ", response);
     console.log(error, response.body);
     return response;
