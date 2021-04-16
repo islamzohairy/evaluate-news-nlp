@@ -5,6 +5,14 @@ const request = require("request");
 
 const app = express();
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Cors for cross origin allowance
+const cors = require("cors");
+app.use(cors());
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -23,23 +31,36 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-app.post("/test", function (req, res) {
-  const formdata = new FormData();
-  formdata.append("key", process.env.API_KEY);
-  formdata.append("url", req.body.formText);
-  formdata.append("lang", "auto");
+app.post("/analyze", async function (req, res) {
+  const { formText, inputType } = req.body;
+  let body = {};
+
+  inputType === "url"
+    ? (body = JSON.stringify({
+        key: process.env.API_KEY,
+        url: formText,
+        lang: "auto",
+      }))
+    : (body = JSON.stringify({
+        key: process.env.API_KEY,
+        txt: formText,
+        lang: "auto",
+      }));
 
   const requestOptions = {
     method: "POST",
-    body: JSON.stringify(formdata),
+    body,
     redirect: "follow",
     uri: "https://api.meaningcloud.com/sentiment-2.1",
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
-  const result = request(requestOptions, function (error, response) {
-    // console.log("response: ", response);
-    console.log(error, response.body);
-    return response;
+  request(requestOptions, async function (error, response, body) {
+    console.log("err: ", error);
+    console.log(body);
+
+    res.send(body);
+    return;
   });
-  res.json(result);
-  // res.send(mockAPIResponse);
 });

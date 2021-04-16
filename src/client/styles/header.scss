@@ -1,5 +1,21 @@
 header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 40px;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  background-color: white;
+
+  svg {
+    width: 40px;
+    color: black;
+  }
+
+  .logo {
     display: flex;
-    justify-content: space-between;
-    padding: 10px 40px;
+    font-size: 25px;
+    p {
+      margin: auto;
+      margin-right: 5px;
+    }
+  }
 }

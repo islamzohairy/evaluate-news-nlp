@@ -1,61 +1,69 @@
-function handleSubmit(event) {
+async function handleSubmit(event) {
   event.preventDefault();
 
-  document.getElementById("loading").innerHTML = "loading ...";
+  const loading = document.getElementById("loading");
+  const polarity = document.getElementById("polarity");
+  const confidence = document.getElementById("confidence");
+  const url = document.getElementById("url").checked;
+  let inputType = null;
+  let checkURL = false;
+
+  url === true ? (inputType = "url") : (inputType = "txt");
+  loading.innerHTML = "loading ...";
+  confidence.innerHTML = "";
+  polarity.innerHTML = "";
 
   // check what text was put into the form field
-  let formText = document.getElementById("name").value;
-  let checkURL = Client.checkForURL(formText);
+  let formText = await document.getElementById("name").value;
+  console.log(formText);
+  if (url === true) {
+    checkURL = await Client.checkForURL(formText);
+  }
 
-  if (checkURL) {
+  if ((checkURL === true && url === true) || url === false) {
     console.log("::: Form Submitted :::");
-        const requestOptions = {
-          method: "POST",
-          body: {
-            formText
-          },
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
+    const requestOptions = {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ formText, inputType }),
+    };
 
-        await fetch(
-          "https://evaluate-news-nlp-wepback.herokuapp.com/test",
-          requestOptions
-        )
-        .then((response) => {
-          console.log(response)
-          if (response.body.status.code !== "0") {
-            document.getElementById("loading").innerHTML =
-              response.body.status.msg + " " + "🙁";
-            document.getElementById("confidence").innerHTML = "";
-            document.getElementById("polarity").innerHTML = "";
-          } else {
-            if (response.body.score_tag) {
-              let polarity = await Client.checkPolarity(response.body.score_tag);
-              document.getElementById("polarity").innerHTML = polarity;
-            }
-  
-            if (response.body.confidence) {
-              let { confidence } = response.body;
-              document.getElementById("confidence").innerHTML = confidence;
-            }
-  
-            document.getElementById("loading").innerHTML = "😀";
-  
-            // document.getElementById("polarity").innerHTML = "polarity";
-            // document.getElementById("confidence").innerHTML = "confidence";
+    await fetch(
+      // "https://evaluate-news-nlp-wepback.herokuapp.com/test",
+      "http://localhost:8081/analyze",
+      requestOptions
+    )
+      .then((res) => res.json())
+      .then(async (response) => {
+        console.log(response);
+        if (response.status.code !== "0") {
+          loading.innerHTML = response.status.msg + " " + "🙁";
+          confidence.innerHTML = "";
+          polarity.innerHTML = "";
+        } else {
+          if (response.score_tag) {
+            let checkPolarity = await Client.checkPolarity(response.score_tag);
+            polarity.innerHTML = checkPolarity;
           }
-        })
+
+          if (response.confidence) {
+            confidence.innerHTML = response.confidence + "%";
+          }
+
+          loading.innerHTML = "✔️";
+        }
+      })
       .catch((e) => {
         console.log(e);
-        document.getElementById("loading").innerHTML =
-          "Something happened wrong ⚠️";
-        document.getElementById("confidence").innerHTML = "";
-        document.getElementById("polarity").innerHTML = "";
+        loading.innerHTML = "Something wrong happened! ⚠️";
+        confidence.innerHTML = "";
+        polarity.innerHTML = "";
       });
   } else {
-    document.getElementById("loading").innerHTML = "Please, enter a valid url!";
+    loading.innerHTML = "Please, enter a valid url! 🔗";
   }
 }
 
