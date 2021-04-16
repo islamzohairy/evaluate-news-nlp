@@ -23,7 +23,7 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-app.get("/test", async function (req, res) {
+app.post("/test", async function (req, res) {
   const formdata = new FormData();
   formdata.append("key", process.env.API_KEY);
   formdata.append("url", req.body.formText);
