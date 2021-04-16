@@ -13,6 +13,7 @@ function handleSubmit(event) {
     fetch("https://evaluate-news-nlp-wepback.herokuapp.com/test")
       .then((res) => res.json())
       .then(async function (res) {
+        console.log(res.key);
         const formdata = new FormData();
         formdata.append("key", res.key);
         formdata.append("url", formText);
