@@ -32,8 +32,8 @@ async function handleSubmit(event) {
     };
 
     await fetch(
-      // "https://evaluate-news-nlp-wepback.herokuapp.com/test",
-      "http://localhost:8081/analyze",
+      "https://evaluate-news-nlp-wepback.herokuapp.com/analyze",
+      // "http://localhost:8081/analyze",
       requestOptions
     )
       .then((res) => res.json())
