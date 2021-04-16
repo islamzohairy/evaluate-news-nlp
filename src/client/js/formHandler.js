@@ -9,7 +9,8 @@ function handleSubmit(event) {
 
   if (checkURL) {
     console.log("::: Form Submitted :::");
-    fetch("http://localhost:8081/test")
+    // fetch("http://localhost:8081/test")
+    fetch("https://evaluate-news-nlp-wepback.herokuapp.com/test")
       .then((res) => res.json())
       .then(async function (res) {
         const formdata = new FormData();
