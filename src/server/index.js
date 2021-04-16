@@ -31,7 +31,7 @@ app.post("/test", function (req, res) {
 
   const requestOptions = {
     method: "POST",
-    body: formdata,
+    body: JSON.stringify(formdata),
     redirect: "follow",
     uri: "https://api.meaningcloud.com/sentiment-2.1",
   };
