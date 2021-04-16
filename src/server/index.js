@@ -31,7 +31,7 @@ app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
 });
 
-app.post("/analyze", async function (req, res) {
+app.post("/analyze", function (req, res) {
   const { formText, inputType } = req.body;
   let body = {};
 
@@ -56,7 +56,7 @@ app.post("/analyze", async function (req, res) {
       "Content-Type": "application/json",
     },
   };
-  request(requestOptions, async function (error, response, body) {
+  request(requestOptions, function (error, response, body) {
     console.log("err: ", error);
     console.log(body);
 
